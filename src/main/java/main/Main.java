@@ -2,9 +2,8 @@ package main;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import services.TMService;
+import org.apache.log4j.BasicConfigurator;
+import services.Services;
 
 import javax.servlet.ServletException;
 import java.io.File;
@@ -15,27 +14,12 @@ import java.io.File;
  */
 public class Main {
 
-    private static ApplicationContext ctx;
-    private static TMService tmService;
-
     public static void main(String[] args) throws Exception {
         Main m = new Main();
-        m.init();
-        m.loadBeans();
+        BasicConfigurator.configure();
+        Services.init();
+        addShutDownHook();
         m.startTomcat();
-    }
-
-    public void init() {
-        System.out.println("Initializing...");
-        ctx = new ClassPathXmlApplicationContext("classpath:/applicationContext.xml");
-    }
-
-    public void loadBeans() {
-        tmService = ctx.getBean(TMService.class);
-    }
-
-    public void run() {
-        tmService.loadAll();
     }
 
     public void startTomcat() throws ServletException, LifecycleException {
@@ -48,7 +32,14 @@ public class Main {
         tomcat.getServer().await();
     }
 
-    public static TMService getTMService() {
-        return tmService;
+    public static void addShutDownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                System.out.println("Shutting down...");
+                Services.shutDown();
+            }
+        });
     }
+
 }

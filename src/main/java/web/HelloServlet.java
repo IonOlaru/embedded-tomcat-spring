@@ -1,6 +1,7 @@
 package web;
 
 import main.Main;
+import services.Services;
 import services.TMService;
 
 import javax.servlet.ServletException;
@@ -18,10 +19,9 @@ public class HelloServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Works...");
         resp.getWriter().print("<h1>Hello.</h1>");
 
-        TMService tmService = Main.getTMService();
+        TMService tmService = Services.getTMService();
         List<String> list = tmService.loadAll();
         resp.getWriter().print("<ol>");
         for (String s: list) {

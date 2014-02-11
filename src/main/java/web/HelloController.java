@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import services.Services;
 import services.TMService;
 
 /**
@@ -22,7 +23,7 @@ public class HelloController {
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
         model.addAttribute("message", "Spring 3 MVC Hello World");
-        model.addAttribute("objects1", Main.getTMService().loadAll());
+        model.addAttribute("objects1", Services.getTMService().loadAll());
         model.addAttribute("objects2", tmServiceFromTomcatSpring.loadAll());
         return "hello";
     }

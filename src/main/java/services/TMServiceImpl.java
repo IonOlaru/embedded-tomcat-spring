@@ -2,6 +2,8 @@ package services;
 
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,5 +23,17 @@ public class TMServiceImpl implements TMService {
         list.add("April");
         list.add("May");
         return list;
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Initializing bean...");
+        System.out.println("Bean initialized.");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Destroying bean...");
+        System.out.println("Bean destroyed.");
     }
 }

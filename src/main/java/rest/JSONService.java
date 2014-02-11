@@ -1,6 +1,7 @@
 package rest;
 
 import main.Main;
+import services.Services;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -19,6 +20,6 @@ public class JSONService {
     	@Path("/get")
     	@Produces(MediaType.APPLICATION_JSON)
     	public List getTrackInJSON() {
-            return Main.getTMService().loadAll();
+            return Services.getTMService().loadAll();
         }
 }
